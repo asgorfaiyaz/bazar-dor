@@ -146,6 +146,9 @@ const Navbar = async () => {
 export default Navbar;
 
 async function CurrentDate() {
+  "use cache";
+
+  cacheLife("days");
   return (
     <p className="text-sm">
       {new Date().toLocaleDateString("bn-BD", {
