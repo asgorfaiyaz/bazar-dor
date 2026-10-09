@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Hind_Siliguri } from "next/font/google";
 import "./globals.css";
+import Navbar from "@/components/shared/Navbar";
 
 export const hindSiliguri = Hind_Siliguri({
   variable: "--font-hind-siliguri",
@@ -20,7 +21,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${hindSiliguri.variable} h-full antialiased light`}
     >
       <body className="min-h-full flex flex-col">
-        {/* <Navbar /> */}
+        <Navbar />
         <main className="page-container py-4 md:py-8">{children}</main>
       </body>
     </html>
