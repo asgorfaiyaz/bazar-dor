@@ -10,7 +10,8 @@ export type Product = {
   change: { dir: "up" | "down"; pct: number };
 };
 
-const PRODUCTS_API = "https://api.api-store.workers.dev/api/bazardor/products";
+export const PRODUCTS_API =
+  "https://api.api-store.workers.dev/api/bazardor/products";
 
 export async function getAllProducts(): Promise<Product[]> {
   "use cache";
