@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import { cacheLife } from "next/cache";
 import CurrentDate from "../CurrentDate";
 import { formatPercent, formatPrice, formatUnit } from "@/lib/format";
+import NavLink from "../NavLink";
 
 async function getCategoryList(): Promise<
   { id: string; slug: string; nameBn: string; icon: string }[]
@@ -105,19 +106,21 @@ const Navbar = async () => {
           </div>
         </div>
 
-        <nav className="bg-card scrollbar-none[&::-webkit-scrollbar]:hidden mb-1">
-          <div className="page-container flex items-center gap-6 overflow-x-auto whitespace-nowrap lg:gap-8">
-            {navCategories?.map((c) => (
-              <Link
-                className="shrink-0 py-2.5 text-sm font-semibold text-muted-foreground transition-colors hover:text-foreground lg:text-base"
-                href={c.slug}
-                key={c.id}
-              >
-                {c.icon} {c.nameBn}
-              </Link>
-            ))}
-          </div>
-        </nav>
+        <Suspense fallback={<h1>Loading...</h1>}>
+          <nav className="bg-card scrollbar-none[&::-webkit-scrollbar]:hidden mb-1">
+            <div className="page-container flex items-center gap-3 overflow-x-auto whitespace-nowrap lg:gap-5">
+              {navCategories?.map((c) => (
+                <NavLink
+                  key={c.id}
+                  href={`/categories/${c.slug}`}
+                  className="shrink-0 px-3 py-1 rounded-lg my-2 text-sm font-semibold lg:text-base"
+                >
+                  {c.icon} {c.nameBn}
+                </NavLink>
+              ))}
+            </div>
+          </nav>
+        </Suspense>
       </header>
       <div className="overflow-hidden border-y bg-card py-3">
         <Marquee speed={60} pauseOnHover>
