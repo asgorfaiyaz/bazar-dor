@@ -5,6 +5,7 @@ import Marquee from "react-fast-marquee";
 import { Suspense } from "react";
 
 import { cacheLife } from "next/cache";
+import CurrentDate from "../CurrentDate";
 
 async function getCategoryList(): Promise<
   { id: string; slug: string; nameBn: string; icon: string }[]
@@ -144,19 +145,3 @@ const Navbar = async () => {
 };
 
 export default Navbar;
-
-async function CurrentDate() {
-  "use cache";
-
-  cacheLife("days");
-  return (
-    <p className="text-sm">
-      {new Date().toLocaleDateString("bn-BD", {
-        weekday: "long",
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      })}
-    </p>
-  );
-}
