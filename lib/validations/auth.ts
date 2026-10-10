@@ -20,3 +20,8 @@ export const signUpSchema = z
 
 export type SignInValues = z.infer<typeof signInSchema>;
 export type SignUpValues = z.infer<typeof signUpSchema>;
+export const updateProfileSchema = z.object({
+  name: z.string().trim().min(2, "নাম কমপক্ষে ২ অক্ষরের হতে হবে"),
+});
+
+export type UpdateProfileValues = z.infer<typeof updateProfileSchema>;
