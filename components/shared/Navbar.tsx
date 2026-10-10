@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { buttonVariants } from "../ui/button";
 import { ShoppingCart } from "lucide-react";
 import Marquee from "react-fast-marquee";
 import { Suspense } from "react";
@@ -9,6 +8,7 @@ import { formatPercent, formatPrice, formatUnit } from "@/lib/format";
 import NavLink from "../NavLink";
 import { getAllProducts } from "@/lib/products";
 import { getAllCategories } from "@/lib/categories";
+import { NavAuth } from "../NavAuth";
 
 const TREND = {
   up: { symbol: "▲", className: "bg-success/10 text-success" },
@@ -40,26 +40,9 @@ const Navbar = async () => {
             </div>
           </Link>
 
-          <div className="flex gap-2">
-            <Link
-              href="/sign-in"
-              className={buttonVariants({
-                variant: "secondary",
-                className: "text-sm font-semibold lg:text-base 2xl:text-lg",
-              })}
-            >
-              সাইন ইন
-            </Link>
-            <Link
-              href="/sign-up"
-              className={buttonVariants({
-                variant: "default",
-                className: "text-sm font-semibold lg:text-base 2xl:text-lg",
-              })}
-            >
-              সাইন আপ
-            </Link>
-          </div>
+          <Suspense fallback={<div className="h-9 w-32" />}>
+            <NavAuth />
+          </Suspense>
         </div>
 
         <Suspense fallback={<h1>Loading...</h1>}>
