@@ -1,7 +1,8 @@
-import { getCategoryBySlug, getProductsByCategory } from "@/lib/categories";
+import { getCategoryBySlug } from "@/lib/categories";
 import { formatCount } from "@/lib/format";
 import { notFound } from "next/navigation";
 import { ProductList } from "../../../../components/products/ProductList";
+import { getProductsByCategory } from "@/lib/products";
 
 type Props = {
   params: Promise<{ slug: string }>;
