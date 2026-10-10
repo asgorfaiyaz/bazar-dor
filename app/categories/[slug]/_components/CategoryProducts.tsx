@@ -3,6 +3,7 @@ import { formatCount } from "@/lib/format";
 import { notFound } from "next/navigation";
 import { ProductList } from "../../../../components/products/ProductList";
 import { getProductsByCategory } from "@/lib/products";
+import Link from "next/link";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -14,8 +15,7 @@ export default async function CategoryProducts({ params }: Props) {
     getCategoryBySlug(slug),
     getProductsByCategory(slug),
   ]);
-
-  if (!category || products.length === 0) notFound();
+  if (!category) notFound();
 
   return (
     <section>
@@ -28,14 +28,33 @@ export default async function CategoryProducts({ params }: Props) {
             {category.nameBn}
           </h2>
           <p className="text-sm text-muted-foreground">
-            {formatCount(products.length)}টি পণ্যের আজকের দাম ও পরিবর্তন
+            {formatCount(products.length || 0)}টি পণ্যের আজকের দাম ও পরিবর্তন
           </p>
         </div>
       </header>
       <div className="my-4">
-        <h2>মোট{formatCount(products.length)}টি পণ্য দেখানো হচ্ছে</h2>
+        <h2>মোট {formatCount(products.length)}টি পণ্য দেখানো হচ্ছে</h2>
       </div>
-      <ProductList products={products} />
+      {products.length === 0 ? (
+        <div className="flex min-h-[30vh] flex-col items-center justify-center px-4 py-12 text-center">
+          <h2 className="text-xl font-semibold">
+            এই ক্যাটাগরিতে কোনো পণ্য পাওয়া যায়নি
+          </h2>
+
+          <p className="mt-2 text-sm text-muted-foreground">
+            অন্য ক্যাটাগরি বা পণ্য দেখতে হোম পেজে ফিরে যান।
+          </p>
+
+          <Link
+            href="/"
+            className="mt-6 inline-flex min-h-10 items-center justify-center rounded-lg bg-primary px-5 py-2 text-sm font-medium text-primary-foreground hover:opacity-90"
+          >
+            হোম পেজে ফিরে যান
+          </Link>
+        </div>
+      ) : (
+        <ProductList products={products} />
+      )}
     </section>
   );
 }
