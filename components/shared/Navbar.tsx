@@ -4,55 +4,11 @@ import { ShoppingCart } from "lucide-react";
 import Marquee from "react-fast-marquee";
 import { Suspense } from "react";
 import { cn } from "@/lib/utils";
-import { cacheLife } from "next/cache";
 import CurrentDate from "../CurrentDate";
 import { formatPercent, formatPrice, formatUnit } from "@/lib/format";
 import NavLink from "../NavLink";
-
-async function getCategoryList(): Promise<
-  { id: string; slug: string; nameBn: string; icon: string }[]
-> {
-  const res = await fetch(
-    "https://api.api-store.workers.dev/api/bazardor/categories",
-    {
-      next: {
-        revalidate: 24 * 60 * 1000,
-      },
-    },
-  );
-
-  if (!res.ok) {
-    throw new Error("Failed to fetch categories");
-  }
-
-  return res.json();
-}
-
-async function getTodaysBestProducts(): Promise<
-  {
-    id: string;
-    slug: string;
-    nameBn: string;
-    image: string;
-    today: string;
-    unit: string;
-    change: { dir: "up" | "down"; pct: number };
-  }[]
-> {
-  "use cache";
-
-  cacheLife("days");
-
-  const res = await fetch(
-    "https://api.api-store.workers.dev/api/bazardor/products",
-  );
-
-  if (!res.ok) {
-    throw new Error("Failed to fetch products");
-  }
-
-  return res.json();
-}
+import { getAllProducts } from "@/lib/products";
+import { getAllCategories } from "@/lib/categories";
 
 const TREND = {
   up: { symbol: "▲", className: "bg-success/10 text-success" },
@@ -61,14 +17,14 @@ const TREND = {
 } as const;
 
 const Navbar = async () => {
-  const navCategories = await getCategoryList();
-  const todaysBestProducts = await getTodaysBestProducts();
+  const navCategories = await getAllCategories();
+  const todaysBestProducts = await getAllProducts();
 
   return (
     <>
       <header className="sticky top-0 left-0 z-50 bg-background">
         <div className="page-container flex items-center justify-between">
-          <div className="flex items-center gap-2">
+          <Link href={"/"} className="flex items-center gap-2">
             <div className="flex h-9 w-11 items-center justify-center rounded-sm bg-primary text-primary-foreground sm:h-10 sm:w-12">
               <ShoppingCart className="size-4 sm:size-5 lg:size-6" />
             </div>
@@ -82,7 +38,7 @@ const Navbar = async () => {
                 </Suspense>
               </div>
             </div>
-          </div>
+          </Link>
 
           <div className="flex gap-2">
             <Link
