@@ -1,5 +1,6 @@
 import { cacheLife } from "next/cache";
-import { Product } from "./products";
+
+export const CATEGORIES_API = process.env.CATEGORIES_API!;
 
 export type Category = {
   id: string;
@@ -7,19 +8,34 @@ export type Category = {
   nameBn: string;
   icon: string;
 };
-export async function getCategoryBySlug(slug: string): Promise<Category> {
-  const res = await fetch(
-    `https://api.api-store.workers.dev/api/bazardor/categories/${slug}`,
-  );
-  if (!res.ok) throw new Error(`Failed to fetch products (${res.status})`);
-  return res.json();
+
+export async function getCategoryBySlug(
+  slug: string,
+): Promise<Category | null> {
+  const res = await fetch(`${CATEGORIES_API}/${encodeURIComponent(slug)}`);
+
+  if (res.status === 404) {
+    return null;
+  }
+
+  if (!res.ok) {
+    throw new Error(`Failed to fetch category by slug (${res.status})`);
+  }
+
+  return await res.json();
 }
-export async function getProductsByCategory(slug: string): Promise<Product[]> {
+
+export async function getAllCategories(): Promise<Category[]> {
   "use cache";
-  cacheLife("minutes");
-  const res = await fetch(
-    `https://api.api-store.workers.dev/api/bazardor/products?category=${slug}`,
-  );
-  if (!res.ok) throw new Error(`Failed to fetch products (${res.status})`);
-  return res.json();
+  cacheLife("hours");
+
+  const res = await fetch(CATEGORIES_API);
+
+  if (!res.ok) {
+    throw new Error(`Failed to fetch categories (${res.status})`);
+  }
+
+  const data = await res.json();
+
+  return data as Category[];
 }
