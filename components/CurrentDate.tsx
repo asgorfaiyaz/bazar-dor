@@ -1,9 +1,6 @@
-import { cacheLife } from "next/cache";
+"use client";
 
-export default async function CurrentDate() {
-  "use cache";
-
-  cacheLife("days");
+export default function CurrentDate() {
   return (
     <p className="text-sm">
       {new Date().toLocaleDateString("bn-BD", {
@@ -11,6 +8,7 @@ export default async function CurrentDate() {
         year: "numeric",
         month: "long",
         day: "numeric",
+        timeZone: "Asia/Dhaka",
       })}
     </p>
   );

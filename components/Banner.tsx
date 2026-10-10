@@ -4,6 +4,7 @@ import CurrentDate from "./CurrentDate";
 import { buttonVariants } from "./ui/button";
 import BannerImage from "@/public/bazar-hero.png";
 import { ArrowRight } from "lucide-react";
+import { Suspense } from "react";
 
 const Banner = () => {
   return (
@@ -12,7 +13,9 @@ const Banner = () => {
         <div className="max-w-2xl">
           {/* Eyebrow */}
           <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-green-200 bg-white/80 px-3 py-1.5 text-sm font-medium text-green-800 shadow-sm">
-            <CurrentDate />
+            <Suspense fallback={<span>Loading ...</span>}>
+              <CurrentDate />
+            </Suspense>
           </div>
 
           <h1 className="text-3xl font-extrabold leading-tight tracking-tight text-gray-900 sm:text-4xl lg:text-5xl">
