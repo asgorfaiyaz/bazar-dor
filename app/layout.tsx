@@ -3,7 +3,7 @@ import { Hind_Siliguri } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/shared/Navbar";
 import Footer from "@/components/shared/Footer";
-import { Toaster } from "@/components/ui/sonner";
+import { Toaster } from "react-hot-toast";
 
 export const hindSiliguri = Hind_Siliguri({
   variable: "--font-hind-siliguri",
@@ -27,9 +27,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <main className="flex-1 page-container py-3 md:py-6">{children}</main>
         <Toaster
           toastOptions={{
-            classNames: {
-              success: "!bg-success !text-white !border-transparent",
-              error: "!bg-destructive !text-white !border-transparent",
+            success: {
+              style: { background: "#058a40", color: "#fff" },
+              iconTheme: { primary: "#fff", secondary: "#058a40" },
+            },
+            error: {
+              style: { background: "#dc2626", color: "#fff" },
+              iconTheme: { primary: "#fff", secondary: "#dc2626" },
             },
           }}
         />

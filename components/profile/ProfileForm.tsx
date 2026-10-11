@@ -3,7 +3,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
-import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -18,6 +17,7 @@ import {
   updateProfileSchema,
   type UpdateProfileValues,
 } from "@/lib/validations/auth";
+import toast from "react-hot-toast";
 
 export function ProfileForm({ defaultName }: { defaultName: string }) {
   const router = useRouter();

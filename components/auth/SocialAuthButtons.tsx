@@ -5,7 +5,7 @@ import { FcGoogle } from "react-icons/fc";
 
 import { Button } from "@/components/ui/button";
 import { signIn } from "@/lib/auth-client";
-import { toast } from "sonner";
+import toast from "react-hot-toast";
 
 const providers = [
   { id: "google", label: "Google দিয়ে চালিয়ে যান", Icon: FcGoogle },

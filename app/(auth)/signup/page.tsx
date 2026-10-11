@@ -16,7 +16,7 @@ import { signUp } from "@/lib/auth-client";
 import { signUpSchema, type SignUpValues } from "@/lib/validations/auth";
 import { AuthShell } from "@/components/auth/AuthShell";
 import { SocialAuthButtons } from "@/components/auth/SocialAuthButtons";
-import { toast } from "sonner";
+import toast from "react-hot-toast";
 
 const inputClass = "h-10 rounded-lg bg-white px-3 text-sm";
 

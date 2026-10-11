@@ -1,9 +1,9 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { toast } from "sonner";
 
 import { signOut } from "@/lib/auth-client";
+import toast from "react-hot-toast";
 
 export function useSignOut() {
   const router = useRouter();

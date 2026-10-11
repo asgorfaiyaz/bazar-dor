@@ -3,6 +3,8 @@
 import { ProfileForm } from "@/components/profile/ProfileForm";
 import { ProfileHeader } from "@/components/profile/ProfileHeader";
 import { useSession } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 function ProfileSkeleton() {
   return (
@@ -13,7 +15,12 @@ function ProfileSkeleton() {
 }
 
 export function ProfileContent() {
+  const router = useRouter();
   const { data: session, isPending } = useSession();
+
+  useEffect(() => {
+    if (!isPending && !session) router.replace("/signin?reason=login-required");
+  }, [isPending, session, router]);
 
   if (isPending || !session) return <ProfileSkeleton />;
   return (
