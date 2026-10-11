@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { formatPercent, formatPrice, formatUnit } from "@/lib/format";
-import type { Product } from "@/lib/products";
+import type { DetailedProduct } from "@/lib/products";
 
 const TREND = {
   up: { symbol: "▲", className: "bg-success/10 text-success" },
@@ -9,7 +9,7 @@ const TREND = {
   flat: { symbol: "—", className: "bg-muted text-muted-foreground" },
 } as const;
 
-export default function ProductCard({ product }: { product: Product }) {
+export default function ProductCard({ product }: { product: DetailedProduct }) {
   const { slug, nameBn, image, today, unit, change } = product;
   const trend = TREND[change.pct === 0 ? "flat" : change.dir];
 

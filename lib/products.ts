@@ -58,7 +58,9 @@ export function getTopMovers(
     .slice(0, limit);
 }
 
-export async function getProductsByCategory(slug: string): Promise<Product[]> {
+export async function getProductsByCategory(
+  slug: string,
+): Promise<DetailedProduct[]> {
   "use cache";
   cacheLife("minutes");
   const res = await fetch(`${PRODUCTS_API}?category=${slug}`);

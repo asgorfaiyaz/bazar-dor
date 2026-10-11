@@ -1,9 +1,9 @@
 import { getCategoryBySlug } from "@/lib/categories";
 import { formatCount } from "@/lib/format";
 import { notFound } from "next/navigation";
-import { ProductList } from "../../../../components/products/ProductList";
 import { getProductsByCategory } from "@/lib/products";
 import Link from "next/link";
+import { SortableProductList } from "@/components/products/SortableProductList";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -32,9 +32,7 @@ export default async function CategoryProducts({ params }: Props) {
           </p>
         </div>
       </header>
-      <div className="my-4">
-        <h2>মোট {formatCount(products.length)}টি পণ্য দেখানো হচ্ছে</h2>
-      </div>
+
       {products.length === 0 ? (
         <div className="flex min-h-[30vh] flex-col items-center justify-center px-4 py-12 text-center">
           <h2 className="text-xl font-semibold">
@@ -53,7 +51,7 @@ export default async function CategoryProducts({ params }: Props) {
           </Link>
         </div>
       ) : (
-        <ProductList products={products} />
+        <SortableProductList products={products} />
       )}
     </section>
   );
