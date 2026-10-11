@@ -59,7 +59,7 @@ export default function SignInPage() {
           <>
             অ্যাকাউন্ট নেই?{" "}
             <Link
-              href="/sign-up"
+              href="/signup"
               className="font-medium text-[#058a40] hover:underline"
             >
               সাইন আপ করুন

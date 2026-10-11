@@ -88,7 +88,7 @@ export default function SignUpPage() {
         <>
           অ্যাকাউন্ট আছে?{" "}
           <Link
-            href="/sign-in"
+            href="/signin"
             className="font-medium text-success hover:underline"
           >
             সাইন ইন করুন
