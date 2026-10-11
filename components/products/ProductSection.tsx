@@ -1,10 +1,10 @@
-import type { Product } from "@/lib/products";
+import type { DetailedProduct } from "@/lib/products";
 import { ProductList } from "./ProductList";
 
 type Props = {
   title: string;
   subTitle?: string;
-  products: Product[];
+  products: DetailedProduct[];
 };
 
 export function ProductSection({ title, subTitle, products }: Props) {

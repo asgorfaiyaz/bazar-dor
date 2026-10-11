@@ -1,15 +1,5 @@
 import { cacheLife } from "next/cache";
 
-export type Product = {
-  id: string;
-  slug: string;
-  nameBn: string;
-  image: string;
-  today: string;
-  unit: string;
-  change: { dir: "up" | "down"; pct: number };
-};
-
 export type ProductMarket = {
   market: string;
   division: string;
@@ -38,7 +28,7 @@ export type DetailedProduct = {
 };
 
 export const PRODUCTS_API = process.env.PRODUCTS_API!;
-export async function getAllProducts(): Promise<Product[]> {
+export async function getAllProducts(): Promise<DetailedProduct[]> {
   "use cache";
   cacheLife("hours");
 
@@ -48,8 +38,8 @@ export async function getAllProducts(): Promise<Product[]> {
 }
 
 export function getTopMovers(
-  products: Product[],
-  dir: Product["change"]["dir"],
+  products: DetailedProduct[],
+  dir: DetailedProduct["change"]["dir"],
   limit = 6,
 ) {
   return products
