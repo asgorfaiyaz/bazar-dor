@@ -1,4 +1,5 @@
 import CategoryProducts from "@/app/categories/[slug]/_components/CategoryProducts";
+import { ProductListSkeleton } from "@/components/products/ProductsSkeleton";
 import { Suspense } from "react";
 
 type CateogryPageProps = {
@@ -7,7 +8,7 @@ type CateogryPageProps = {
 
 export default async function CateogryPage({ params }: CateogryPageProps) {
   return (
-    <Suspense fallback={<h1>Loading ...</h1>}>
+    <Suspense fallback={<ProductListSkeleton />}>
       <CategoryProducts params={params} />
     </Suspense>
   );
