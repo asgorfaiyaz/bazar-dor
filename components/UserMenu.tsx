@@ -2,7 +2,6 @@
 
 import { ChevronDown, LogOut, User } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -13,26 +12,15 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { signOut } from "@/lib/auth-client";
+import { useSignOut } from "@/hooks/useSignOut";
 
 type UserMenuProps = {
   user: { name: string; email: string; image?: string | null };
 };
 
 export function UserMenu({ user }: UserMenuProps) {
-  const router = useRouter();
+  const handleSignOut = useSignOut();
   const firstName = user.name.trim().split(" ")[0];
-
-  async function handleSignOut() {
-    await signOut({
-      fetchOptions: {
-        onSuccess: () => {
-          router.push("/");
-          router.refresh();
-        },
-      },
-    });
-  }
 
   return (
     <DropdownMenu>

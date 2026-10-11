@@ -5,6 +5,7 @@ import { FcGoogle } from "react-icons/fc";
 
 import { Button } from "@/components/ui/button";
 import { signIn } from "@/lib/auth-client";
+import { toast } from "sonner";
 
 const providers = [
   { id: "google", label: "Google দিয়ে চালিয়ে যান", Icon: FcGoogle },
@@ -29,7 +30,16 @@ export function SocialAuthButtons({ disabled }: { disabled?: boolean }) {
             disabled={disabled}
             aria-label={label}
             className="h-10 rounded-lg bg-white text-sm font-medium"
-            onClick={() => signIn.social({ provider: id, callbackURL: "/" })}
+            onClick={() =>
+              signIn.social(
+                { provider: id, callbackURL: "/" },
+                {
+                  onError: (ctx) => {
+                    toast.error(ctx.error.message || "লগইন করা যায়নি");
+                  },
+                },
+              )
+            }
           >
             <Icon className="size-5 sm:size-4" />
             <span className="sr-only sm:not-sr-only">{label}</span>

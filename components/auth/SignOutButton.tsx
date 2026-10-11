@@ -1,24 +1,12 @@
 "use client";
 
 import { Undo2 } from "lucide-react";
-import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
-import { signOut } from "@/lib/auth-client";
+import { useSignOut } from "@/hooks/useSignOut";
 
 export function SignOutButton() {
-  const router = useRouter();
-
-  async function handleSignOut() {
-    await signOut({
-      fetchOptions: {
-        onSuccess: () => {
-          router.push("/");
-          router.refresh();
-        },
-      },
-    });
-  }
+  const handleSignOut = useSignOut();
 
   return (
     <Button

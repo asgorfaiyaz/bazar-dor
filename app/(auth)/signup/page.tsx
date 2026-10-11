@@ -16,6 +16,7 @@ import { signUp } from "@/lib/auth-client";
 import { signUpSchema, type SignUpValues } from "@/lib/validations/auth";
 import { AuthShell } from "@/components/auth/AuthShell";
 import { SocialAuthButtons } from "@/components/auth/SocialAuthButtons";
+import { toast } from "sonner";
 
 const inputClass = "h-10 rounded-lg bg-white px-3 text-sm";
 
@@ -62,17 +63,21 @@ export default function SignUpPage() {
 
   async function onSubmit({ name, email, password }: SignUpValues) {
     await signUp.email(
-      { name, email, password, callbackURL: "/" },
+      { name, email, password },
       {
         onSuccess: () => {
-          router.push("/");
-          router.refresh();
+          toast.success("অ্যাকাউন্ট তৈরি হয়েছে, এখন সাইন ইন করুন");
+          router.push("/signin");
         },
         onError: (ctx) => {
-          form.setError("root", { message: ctx.error.message });
+          toast.error(ctx.error.message || "অ্যাকাউন্ট তৈরি করা যায়নি");
         },
       },
     );
+  }
+
+  function onInvalid() {
+    toast.error("ফর্মের তথ্য সঠিক নয়, দয়া করে ঠিক করুন");
   }
 
   return (
@@ -91,7 +96,7 @@ export default function SignUpPage() {
         </>
       }
     >
-      <form onSubmit={form.handleSubmit(onSubmit)}>
+      <form onSubmit={form.handleSubmit(onSubmit, onInvalid)}>
         <FieldGroup className="gap-4">
           {fields.map(({ name, label, ...inputProps }) => (
             <Controller

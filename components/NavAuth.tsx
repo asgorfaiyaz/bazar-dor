@@ -22,7 +22,7 @@ export function NavAuth({ className }: { className?: string }) {
   return (
     <div className={cn("flex gap-2", className)}>
       <Link
-        href="/sign-in"
+        href="/signin"
         className={buttonVariants({
           variant: "secondary",
           className: linkClass,
@@ -31,7 +31,7 @@ export function NavAuth({ className }: { className?: string }) {
         সাইন ইন
       </Link>
       <Link
-        href="/sign-up"
+        href="/signup"
         className={buttonVariants({ variant: "default", className: linkClass })}
       >
         সাইন আপ

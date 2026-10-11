@@ -1,7 +1,9 @@
 "use client";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -11,11 +13,11 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { updateUser } from "@/lib/auth-client";
 import {
   updateProfileSchema,
   type UpdateProfileValues,
 } from "@/lib/validations/auth";
-import { updateUser } from "@/lib/auth-client";
 
 export function ProfileForm({ defaultName }: { defaultName: string }) {
   const router = useRouter();
@@ -25,32 +27,33 @@ export function ProfileForm({ defaultName }: { defaultName: string }) {
     defaultValues: { name: defaultName },
   });
 
-  const { isSubmitting, isDirty, isSubmitSuccessful } = form.formState;
-  const rootError = form.formState.errors.root?.message;
+  const { isSubmitting, isDirty } = form.formState;
 
   async function onSubmit(values: UpdateProfileValues) {
     const { error } = await updateUser({ name: values.name });
 
     if (error) {
-      form.setError("root", {
-        message: error.message ?? "আপডেট করা যায়নি, আবার চেষ্টা করুন",
-      });
+      toast.error(error.message || "আপডেট করা যায়নি, আবার চেষ্টা করুন");
       return;
     }
-
-    form.reset(values, { keepIsSubmitSuccessful: true });
+    // show a toast msg
+    toast.success("তথ্য আপডেট হয়েছে");
+    form.reset(values);
     router.refresh();
+  }
+
+  function onInvalid() {
+    toast.error("ফর্মের তথ্য সঠিক নয়, দয়া করে ঠিক করুন");
   }
 
   return (
     <Card className="gap-0 rounded-2xl bg-[#f9faf7] py-0 shadow-none">
-      {/* tit */}
       <CardHeader className="pt-6">
         <CardTitle className="text-lg">তথ্য</CardTitle>
       </CardHeader>
 
       <CardContent className="p-6">
-        <form onSubmit={form.handleSubmit(onSubmit)} noValidate>
+        <form onSubmit={form.handleSubmit(onSubmit, onInvalid)} noValidate>
           <FieldGroup className="gap-4">
             <Controller
               name="name"
@@ -61,7 +64,7 @@ export function ProfileForm({ defaultName }: { defaultName: string }) {
                   <Input
                     {...field}
                     id="name"
-                    autoComplete="name"
+                    // autoComplete="name"
                     className="h-10 rounded-lg bg-white px-3 text-sm"
                     aria-invalid={fieldState.invalid}
                   />
@@ -71,17 +74,6 @@ export function ProfileForm({ defaultName }: { defaultName: string }) {
                 </Field>
               )}
             />
-
-            {rootError && (
-              <p role="alert" className="text-sm text-destructive">
-                {rootError}
-              </p>
-            )}
-            {isSubmitSuccessful && !isDirty && (
-              <p role="status" className="text-sm text-[#058a40]">
-                তথ্য আপডেট হয়েছে
-              </p>
-            )}
 
             <Button
               type="submit"

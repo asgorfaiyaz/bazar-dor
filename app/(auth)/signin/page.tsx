@@ -16,6 +16,7 @@ import { signIn } from "@/lib/auth-client";
 import { signInSchema, SignInValues } from "@/lib/validations/auth";
 import { AuthShell } from "@/components/auth/AuthShell";
 import { SocialAuthButtons } from "@/components/auth/SocialAuthButtons";
+import { toast } from "sonner";
 
 const inputClass = "h-10 rounded-lg bg-white px-3 text-sm";
 
@@ -33,13 +34,18 @@ export default function SignInPage() {
   async function onSubmit(values: SignInValues) {
     await signIn.email(values, {
       onSuccess: () => {
+        toast.success("সফলভাবে সাইন ইন হয়েছে");
         router.push("/");
         router.refresh();
       },
       onError: (ctx) => {
-        form.setError("root", { message: ctx.error.message });
+        toast.error(ctx.error.message || "সাইন ইন করা যায়নি");
       },
     });
+  }
+
+  function onInvalid() {
+    toast.error("ফর্মের তথ্য সঠিক নয়, দয়া করে ঠিক করুন");
   }
 
   return (
@@ -58,7 +64,7 @@ export default function SignInPage() {
         </>
       }
     >
-      <form onSubmit={form.handleSubmit(onSubmit)}>
+      <form onSubmit={form.handleSubmit(onSubmit, onInvalid)} noValidate>
         <FieldGroup className="gap-4">
           <Controller
             name="email"
