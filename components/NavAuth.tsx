@@ -8,8 +8,7 @@ import { useSession } from "@/lib/auth-client";
 const linkClass = "text-sm font-semibold lg:text-base 2xl:text-lg";
 
 export function NavAuth({ className }: { className?: string }) {
-  const { data: session, isPending } = useSession();
-  if (isPending) return <div className="h-9 w-32" />;
+  const { data: session } = useSession();
 
   if (session) {
     return (

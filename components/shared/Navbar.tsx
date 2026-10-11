@@ -9,6 +9,7 @@ import NavLink from "../NavLink";
 import { getAllProducts } from "@/lib/products";
 import { getAllCategories } from "@/lib/categories";
 import { NavAuth } from "../NavAuth";
+import { Skeleton } from "../ui/skeleton";
 
 const TREND = {
   up: { symbol: "▲", className: "bg-success/10 text-success" },
@@ -40,7 +41,7 @@ const Navbar = async () => {
             </div>
           </Link>
 
-          <Suspense fallback={<div className="h-9 w-32" />}>
+          <Suspense fallback={<Skeleton className="h-9 w-35 rounded-lg" />}>
             <NavAuth />
           </Suspense>
         </div>
